@@ -89,7 +89,7 @@ namespace DotNetEd.CoreAdmin.Controllers
 
                             if (f.ForeignKeys.Count == 1)
                             {
-                                var typeOfChild = f.ForeignKeys[0];
+                                var typeOfChild = f.ForeignKeys.ElementAt(0);
 
                                 var propsOnDbContext = dbContextObject.GetType().GetProperties();
 
@@ -98,7 +98,7 @@ namespace DotNetEd.CoreAdmin.Controllers
                                     && p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>)
                                     && p.PropertyType.GetGenericArguments().First().FullName == typeOfChild.PrincipalEntityType.Name);
 
-                                var primaryKey2 = dbContextObject.Model.FindEntityType(typeOfChild.PrincipalEntityType.Name).FindPrimaryKey();
+                                var primaryKey2 = dbContextObject.Model.FindEntityType(typeOfChild.PrincipalEntityType.Name)?.FindPrimaryKey();
 
                                 var allChildren2 = (IEnumerable<object>)dbContextObject.GetType().GetProperty(targetChildListOnDbContext.Name).GetValue(dbContextObject);
 
